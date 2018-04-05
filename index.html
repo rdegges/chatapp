@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>vchat - a simple video chat app</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/js/okta-sign-in.min.js" type="text/javascript"></script>
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.6.0/css/okta-theme.css" type="text/css" rel="stylesheet"/>
+    <script src="https://webrtc.github.io/adapter/adapter-4.2.2.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/video.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><a href="/">vchat</a></h1>
+        <h2><a href="/">a simple video chat app</a></h2>
+      </header>
+
+      <div id="okta-login-container"></div>
+
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-md-auto align-self-center">
+          <p id="login"><b>NOTE</b>: You are not currently logged in. If you'd like to start your own
+            chat room please <button type="button" class="btn btn-light" onclick="document.location='/'">log in</button></p>
+          <div id="url" class="alert alert-dark" role="alert">
+            <span id="roomIntro">ROOM URL</span>: <span id="roomUrl"></span>
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+
+      <div id="remotes" class="row">
+        <div class="col-md-6">
+          <div class="videoContainer">
+            <video id="selfVideo" oncontextmenu="return false;"></video>
+            <meter id="localVolume" class="volume" min="-45" max="-20" high="-25" low="-40"></meter>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Hacked together by <a href="https://twitter.com/rdegges">@rdegges</a>
+        and <a href="https://twitter.com/oktadev">@oktadev</a>.</p>
+    </footer>
+
+    <script>
+      function hasQuerystring() {
+        return location.href.indexOf("?") !== -1;
+      }
+
+      // If the user is logging in for the first time...
+      if (okta.token.hasTokensInUrl()) {
+        okta.token.parseTokensFromUrl(
+          function success(res) {
+            // Save the tokens for later use, e.g. if the page gets refreshed:
+            okta.tokenManager.add("accessToken", res[0]);
+            okta.tokenManager.add("idToken", res[1]);
+
+            // Redirect to this user's dedicated room URL.
+            window.location = getRoomURL();
+          }, function error(err) {
+            alert("We weren't able to log you in, something horrible must have happened. Please refresh the page.");
+          }
+        );
+      } else {
+        okta.session.get(function(res) {
+
+          // If the user is logged in, display the app.
+          if (res.status === "ACTIVE") {
+
+            // If the user is logged in on the home page, redirect to their room page.
+            if (location.href.indexOf("?") === -1) {
+              window.location = getRoomURL();
+            }
+
+            return enableVideo();
+          }
+
+          // If we get here, the user is not logged in.
+
+          // If there's a querystring in the URL, it means this person is in a
+          // "room" so we should display our passive login notice. Otherwise,
+          // we'll prompt them for login immediately.
+          if (hasQuerystring()) {
+            document.getElementById("login").style.display = "block";
+            enableVideo();
+          } else {
+            showLogin();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
