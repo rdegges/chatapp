@@ -24,7 +24,7 @@ function showLogin() {
 }
 
 // Determine whether or not we have a querystring.
-function hasQuerystring() {
+function hasQueryString() {
   return location.href.indexOf("?") !== -1;
 }
 
@@ -63,7 +63,7 @@ function handleLogin() {
       // If there's a querystring in the URL, it means this person is in a
       // "room" so we should display our passive login notice. Otherwise,
       // we'll prompt them for login immediately.
-      if (hasQuerystring()) {
+      if (hasQueryString()) {
         document.getElementById("login").style.display = "block";
         enableVideo();
       } else {
