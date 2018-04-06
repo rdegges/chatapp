@@ -2,6 +2,8 @@
 
 A simple, pure JavaScript chat app built using WebRTC and [Okta](https://developer.okta.com/).
 
+![ChatApp Demo](https://raw.githubusercontent.com/rdegges/chatapp/master/assets/chatapp.orig.gif)
+
 
 ## Prerequisites
 
