@@ -7,7 +7,7 @@ A simple, pure JavaScript chat app built using WebRTC and [Okta](https://develop
 
 ## Demo
 
-You can test this app out live here: https://naughty-bhabha-908faa.netlify.com/
+You can test this app out live here: https://naughty-bhabha-908faa.netlify.com?room=test
 
 
 ## Prerequisites
