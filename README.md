@@ -5,6 +5,11 @@ A simple, pure JavaScript chat app built using WebRTC and [Okta](https://develop
 ![ChatApp Demo](https://raw.githubusercontent.com/rdegges/chatapp/master/assets/chatapp.orig.gif)
 
 
+## Demo
+
+You can test this app out live here: https://naughty-bhabha-908faa.netlify.com/
+
+
 ## Prerequisites
 
 Before getting started, you'll need to create an Okta developer account (which
