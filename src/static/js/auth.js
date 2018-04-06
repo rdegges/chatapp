@@ -51,7 +51,7 @@ function handleLogin() {
       if (res.status === "ACTIVE") {
 
         // If the user is logged in on the home page, redirect to their room page.
-        if (location.href.indexOf("?") === -1) {
+        if (!hasQueryString()) {
           window.location = getRoomURL();
         }
 
